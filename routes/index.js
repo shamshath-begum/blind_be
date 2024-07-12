@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const multer = require('multer');
+// const multer = require('multer');
 const mongoose = require("mongoose");
 const { dbUrl } = require("../config/dbConfig");
 const { UserModel } = require("../schema/usersschema.js");
@@ -9,33 +9,38 @@ const {
   hashCompare,
   createToken,
   decodeToken,
-  
+  validate,
+  upload,
+  roleSalesRep,
+  roleAdmin,
+  roleStudent,
 } = require("../config/auth");
+
 // const upload = multer({ dest: 'uploads/' });
 mongoose.set("strictQuery", true);
 mongoose.connect(dbUrl);
 
-const imgconfig=multer.diskStorage({
-  destination:(req,file,callback)=>{
-    callback(null,"./uploads")
-  },
-  filename:(req,file,callback)=>{
-    callback(null,`image-${Date.now()}.${file.originalname}`)
-  }
-})
+// const imgconfig=multer.diskStorage({
+//   destination:(req,file,callback)=>{
+//     callback(null,"./uploads")
+//   },
+//   filename:(req,file,callback)=>{
+//     callback(null,`image-${Date.now()}.${file.originalname}`)
+//   }
+// })
 
-const isImage=(req,file,callback)=>{
-  if(file.mimetype.startsWith("image")){
-    callback(null,true)
-}else{
-  callback(new Error("only images are allowed"))
-}
-}
+// const isImage=(req,file,callback)=>{
+//   if(file.mimetype.startsWith("image")){
+//     callback(null,true)
+// }else{
+//   callback(new Error("only images are allowed"))
+// }
+// }
 
-const upload=multer({
-  storage:imgconfig,
-  fileFilter:isImage
-})
+// const upload=multer({
+//   storage:imgconfig,
+//   fileFilter:isImage
+// })
 
 router.post('/api/submit-form', upload.single('image'), async (req, res) => {
   const data = req.body;
@@ -54,25 +59,7 @@ console.log(data)
 
 
 
-// router.post("/users", async (req, res) => {
-//   try {
-//     let user = await UserModel.findOne({ email: req.body.email });
-//     if (!user) {
-      
-//       let doc = new UserModel(req.body);
-//       console.log(doc)
-//       await doc.save();
-//       res.status(201).send({
-//         message: "User Created successfully",
-//       });
-//     } else {
-//       res.status(400).send({ message: "User already exists" });
-//     }
-//   } catch (error) {
-//     console.log(error);
-//     res.status(500).send({ message: "Internal Server Error", error });
-//   }
-// });
+
 
 router.get("/view", async (req, res) => {
   try {
