@@ -13,7 +13,7 @@ const UserSchema=new mongoose.Schema({
   maritalStatus: String,
   city: String,
   pincode: String,
-  image: String,
+  photo: String,
   nationality: String,
   currentOrganisation: String,
   currentDesignation: String,
